@@ -1,0 +1,107 @@
+body {
+    background-color: #9E8B73;
+    font-family: 'Open Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #9E8B73;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 128px;
+}
+
+header h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 74px;
+    letter-spacing: -0.025em;
+    opacity: 0.9;
+}
+
+header nav a {
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 20px;
+    opacity: 0.7;
+}
+
+.bg-custom {
+    background-color: #9E8B73;
+}
+
+h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 500;
+    opacity: 0.9;
+    margin-bottom: 50px;
+    color: #FFFFFF;
+}
+
+h4 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #FFFFFF;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.booking-section, .available-dates-section {
+    padding: 50px 0;
+}
+
+/* Calendar Styles */
+.calendar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #F8F5F2;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.calendar .month {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.calendar .days, .calendar .dates {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+}
+
+.calendar .day, .calendar .date {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+    background-color: #EEEAE7;
+    border-radius: 5px;
+}
+
+.calendar .date {
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.calendar .date:hover {
+    background-color: #CCC;
+}
+
+.calendar .date.selected {
+    background-color: #9E8B73;
+    color: #FFFFFF;
+}

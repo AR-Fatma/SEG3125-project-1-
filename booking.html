@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking and Available Dates</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="booking-styles.css">
+</head>
+<body>
+    <header class="header-container text-white">
+        <div class="container d-flex justify-content-between align-items-center">
+            <h1 class="mb-0">F&F Salon</h1>
+            <nav class="navbar navbar-expand-lg navbar-dark">
+                <div class="container-fluid">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav ms-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="index.html">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="services.html">Services</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="team.html">Our Team</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="booking.html">Book</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="contact.html">Contacts & Location</a>
+                            </li>   
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <div class="container text-center booking-section mt-5">
+        <h2>Book Your Appointment Today!</h2>
+        <div class="form-group">
+            <select class="form-control mb-3" id="select-expert">
+                <option value="" disabled selected>Select Expert...</option>
+                <option value="Tory">Tory</option>
+                <option value="Adam">Adam</option>
+                <option value="Tyla">Tyla</option>
+                <option value="Kendrik">Kendrik</option>
+            </select>
+            <select class="form-control mb-3" id="select-service" onchange="handleServiceChange()">
+                <option value="" disabled selected>Select Services...</option>
+                <option value="Hair Colour">Hair Colour</option>
+                <option value="Treatment">Treatment</option>
+                <option value="Cuts">Cuts</option>
+                <option value="Others">Others</option>
+            </select>
+            <div id="comment-section" class="form-group mb-3" style="display: none;">
+                <textarea class="form-control" id="comment" placeholder="Please specify your request..."></textarea>
+            </div>
+            <input type="email" class="form-control mb-3" placeholder="Enter Email : example@fandf.com">
+        </div>
+    </div>
+    <div class="container text-center available-dates-section mt-5">
+        <h2>These are the Available dates</h2>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="calendar">
+                    <div class="month">MAY</div>
+                    <div class="days">
+                        <div class="day">S</div>
+                        <div class="day">M</div>
+                        <div class="day">T</div>
+                        <div class="day">W</div>
+                        <div class="day">T</div>
+                        <div class="day">F</div>
+                        <div class="day">S</div>
+                    </div>
+                    <div class="dates" id="calendar-dates">
+                        <!-- Calendar dates will be dynamically generated -->
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 text-left">
+                <h4>Please select the day</h4>
+                <p>Day Selected: <input type="text" class="form-control" id="selected-day" readonly></p>
+                <h4>Select Time:</h4>
+                <div id="available-times" class="mb-3">
+                    <!-- Available times will be dynamically generated -->
+                </div>
+                <h4>Time Selected:</h4>
+                <input type="text" class="form-control" id="selected-time" readonly>
+                <button class="btn btn-dark mt-2" onclick="bookAppointment()">Book</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmationModalLabel">Appointment Confirmation</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Thank you for booking your appointment with us! Here are your appointment details:</p>
+                    <ul class="list-group">
+                        <li class="list-group-item"><strong>Expert:</strong> <span id="confirm-expert"></span></li>
+                        <li class="list-group-item"><strong>Service:</strong> <span id="confirm-service"></span></li>
+                        <li class="list-group-item"><strong>Date:</strong> <span id="confirm-date"></span></li>
+                        <li class="list-group-item"><strong>Time:</strong> <span id="confirm-time"></span></li>
+                        <li class="list-group-item"><strong>Email:</strong> <span id="confirm-email"></span></li>
+                        <li class="list-group-item" id="confirm-comment-section" style="display: none;"><strong>Comment:</strong> <span id="confirm-comment"></span></li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            generateCalendar();
+        });
+
+        function handleServiceChange() {
+            const serviceSelect = document.getElementById('select-service');
+            const commentSection = document.getElementById('comment-section');
+            if (serviceSelect.value === 'Others') {
+                commentSection.style.display = 'block';
+            } else {
+                commentSection.style.display = 'none';
+            }
+        }
+
+        function generateCalendar() {
+            const calendarDates = document.getElementById('calendar-dates');
+            const daysInMonth = 31; // Adjust based on the month
+            for (let i = 1; i <= daysInMonth; i++) {
+                const dateElement = document.createElement('div');
+                dateElement.className = 'date';
+                dateElement.textContent = i;
+                dateElement.onclick = function() {
+                    selectDate(i);
+                };
+                calendarDates.appendChild(dateElement);
+            }
+        }
+
+        function selectDate(day) {
+            const selectedDayInput = document.getElementById('selected-day');
+            const selectedMonth = "05"; // May
+            const selectedYear = "2024";
+            selectedDayInput.value = `${day}/${selectedMonth}/${selectedYear}`;
+            const dates = document.querySelectorAll('.calendar .date');
+            dates.forEach(date => date.classList.remove('selected'));
+            event.target.classList.add('selected');
+
+            // Display available times
+            const availableTimes = document.getElementById('available-times');
+            availableTimes.innerHTML = `
+                <button class="btn btn-secondary mb-2" onclick="selectTime('1:30 pm')">1:30 pm</button>
+                <button class="btn btn-primary mb-2" onclick="selectTime('2:30 pm')">2:30 PM</button>
+                <button class="btn btn-secondary mb-2" onclick="selectTime('4:00 pm')">4:00 PM</button>
+            `;
+        }
+
+        function selectTime(time) {
+            const selectedTimeInput = document.getElementById('selected-time');
+            selectedTimeInput.value = time;
+        }
+
+        function bookAppointment() {
+            const expert = document.getElementById('select-expert').value;
+            const service = document.getElementById('select-service').value;
+            const email = document.querySelector('input[type="email"]').value;
+            const selectedDay = document.getElementById('selected-day').value;
+            const selectedTime = document.getElementById('selected-time').value;
+            const comment = document.getElementById('comment').value;
+
+            if (!expert || !service || !email || !selectedDay || !selectedTime) {
+                alert('Please fill all the required fields');
+                return;
+            }
+
+            // Display confirmation modal with booking details
+            document.getElementById('confirm-expert').innerText = expert;
+            document.getElementById('confirm-service').innerText = service;
+            document.getElementById('confirm-date').innerText = selectedDay;
+            document.getElementById('confirm-time').innerText = selectedTime;
+            document.getElementById('confirm-email').innerText = email;
+
+            if (comment) {
+                document.getElementById('confirm-comment-section').style.display = 'block';
+                document.getElementById('confirm-comment').innerText = comment;
+            } else {
+                document.getElementById('confirm-comment-section').style.display = 'none';
+            }
+
+            $('#confirmationModal').modal('show');
+        }
+    </script>
+</body>
+</html>
